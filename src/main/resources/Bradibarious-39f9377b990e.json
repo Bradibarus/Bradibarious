@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "bradibarious",
+  "private_key_id": "39f9377b990ef85fcf5ce4fbdfe1ee794698585f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDHgS38uim+Y0x+\nIA88azJcKFI5kDFV+UftbQ5rcgp0zICPT2orm0SDD/L5Zg2+oA3vp1lHK91bFWi2\nalClyaGEeZkVTe2YdEfOyilJcv0ac/qP+GinXNsD06pqjo11UdmJdWnlLQqxeeon\nWEnfv4H5AztNyYiioZwhZ75JsR9jLVSxH/gFoxIngOgkwzcMWNs5LXxJSzAMKOqh\nxp5HC5U78TpIbnMERlDPOhczUDA4bMqQyq0AB/LRTSzitFvyebo09/EMY7sbaily\nZYEjHUCD5HEWf0aUyPosuO8RrnnQFRBKnVg8555BsCMMQP4j9HeTF2wPgUT56349\nXljt3DKfAgMBAAECggEASODnMDW/TwXOKRrEBhGwtVqjYtTKOPpVrKVUiaqAqFcW\nNYPQqHpRRkFaxIFjzvl/7cZnxih/daj19gETUeS8pHyZD9/GRhVgL+nIuESRsgqh\nAtu/Ozgf5594VvGZOjy6p0ylcOsJx3heMZ4+akZ2j8T+8nUG/UXlF4zixd+2tA7z\na9U86dGQy9zwLg+TwtymH91/XPflYiAUERUPDaTuV17aMYv9nO0brqYGGHMqrJQV\nSDY6/LkMMIeJgYz+461aF8Jwwh9I/WyPoX118w7l9mrG+WwKgADGjod6YmPw/nT3\nnIjQI01pCjdic2w8Mt8lhqjDWwUYRh9pnMqvokE4BQKBgQDrZVNgfbsV6/4BF/ph\neZH1K+gG3vet9Amkyu6fzHL8eIDWZeRcV2xtBBZYyrhXgHKECvC/s6kjFftgxysX\nugypLv5H7mBBERwJx1b3rUbsfkLps0x+PIhrzcnYeedKOAWFra/gM5yjuC8qIYLX\nD+WHJXp9TcFM7jfI2z3elWEGEwKBgQDY952OKxxsY3w6wvClmVwMFlqXXdV0CFAN\nk0soesGzkscUPkN1W9vQPQDzb7IqntRzKelE/7imr2Tqk6suN6SSZ3xn6Nob5TGn\nDHGkV74uy7FZvzPJ4PTF4Dgr9DN4uyaZvmthE6otJYX9sYsBgblQjRyts62dxYap\nN7brx4wixQKBgEPsrh12ymht+5KXN7Gu4dYsQDzTVAcHF01NHYRQ+5EsuIilSDr5\nIxlmB4jBnmXpc6H0gjne/txX+HyZnC6xifu7yrY46996r2uG8OpxPrj5ShejnFwE\n3Zy1+huUOZBqD/XeA5Ufb4CyojF3EAk81g+kWe8UY8XuK3yy/uxekGuvAoGASewr\nwTmNCJzowbiTd0iGJRQkr3fn9w2yAL4TmGoivwUeURZZs42lmhB+13JR+NV+uvIn\nqTubdSdDMe04IJoSt1MM/vZGAcUYIrtJqN3ATX9XIKXVhk3f999KJCeitdrF7xIC\n0eN6UsF7IpGwM8Y4FmrNv5z9ZUjcdaEm8LRfWaUCgYEAjHM7CrckscdSw6AEtMj7\ny025XLXbyi7oe5rPrFUvK10feVIkEXPrCd2QDcq2RgMBhyF12TeJ7Uzci/aZYaoN\nvofkY5l2yVy3rs3hGftI6Fff6ouUF3HH5OsR80GvDijyKPuyEPNlMA1KK1CEui3V\n9lW3o0626nv1hM+mQ4j4788=\n-----END PRIVATE KEY-----\n",
+  "client_email": "starting-account-p22n7i536k8e@bradibarious.iam.gserviceaccount.com",
+  "client_id": "101109755762583043500",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/starting-account-p22n7i536k8e%40bradibarious.iam.gserviceaccount.com"
+}
