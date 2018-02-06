@@ -1,8 +1,7 @@
-import xyz.bradibarus.bradibarious.domain.Account;
-import xyz.bradibarus.bradibarious.domain.Term;
+import xyz.bradibarus.bradibarious.model.Account;
+import xyz.bradibarus.bradibarious.model.Term;
 import xyz.bradibarus.bradibarious.service.AccountService;
 import xyz.bradibarus.bradibarious.service.TermsService;
-import xyz.bradibarus.bradibarious.service.TranslationService;
 
 public class Hibernatetest {
     public static void main(String[] args) {

@@ -1,50 +1,79 @@
 package xyz.bradibarus.bradibarious.dao;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import xyz.bradibarus.bradibarious.domain.Account;
-import xyz.bradibarus.bradibarious.domain.Term;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import xyz.bradibarus.bradibarious.model.Account;
+import xyz.bradibarus.bradibarious.model.Term;
 
+import javax.persistence.NoResultException;
 import java.util.Collection;
 import java.util.List;
 
+@Repository
 public class DAO {
-    private SessionFactory sessionFactory;
+    @Autowired
+    SessionFactory sessionFactory;
     private Session session;
     private Transaction tx;
 
     public DAO() {
-        this.sessionFactory = new Configuration()
-                .configure()
-                .addAnnotatedClass(Account.class)
-                .addAnnotatedClass(Term.class)
-                .buildSessionFactory();
         session = null;
     }
 
     public Account findAccountByUsername(String username) {
-        session = sessionFactory.getCurrentSession();
-        tx = session.beginTransaction();
+        Account result = null;
         try {
-            Account account =  (Account) session.createQuery("from Account a where a.username =:username ")
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e) {
+            session = sessionFactory.openSession();
+        }        tx = session.beginTransaction();
+        try {
+            result =  (Account) session.createQuery("from Account a where a.username =:username ")
                     .setParameter("username", username)
-                    .setMaxResults(1);
+                    .getSingleResult();
             tx.commit();
-            return account;
+        }catch(NoResultException e){
+            tx.rollback();
+            return null;
         }catch(Exception e){
             tx.rollback();
             e.printStackTrace();
         }finally {
             session.close();
         }
-        return null;
+        return result;
+    }
+
+    public Account deleteAccountByUsername(String username) {
+        Account toDelete = this.findAccountByUsername(username);
+        if(toDelete == null) return null;
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e) {
+            session = sessionFactory.openSession();
+        }        tx = session.beginTransaction();
+        try {
+            session.delete(toDelete);
+            tx.commit();
+        }catch(Exception e){
+            tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return toDelete;
     }
 
     public Collection<Term> findTermsByAccountUsername (String username) {
-        session = sessionFactory.getCurrentSession();
-        tx = session.beginTransaction();
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e) {
+            session = sessionFactory.openSession();
+        }        tx = session.beginTransaction();
         try {
             List<Term> termsList = session.createQuery("from Term t where t.account.username =:username")
                     .setParameter("username", username)
@@ -61,12 +90,15 @@ public class DAO {
     }
 
     public Term findTermById(Long id) {
-        session = sessionFactory.getCurrentSession();
-        tx = session.beginTransaction();
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e) {
+            session = sessionFactory.openSession();
+        }        tx = session.beginTransaction();
         try {
             Term term = (Term) session.createQuery("from Term t where t.id =:id")
                     .setParameter("id", id)
-                    .setMaxResults(1);
+                    .getSingleResult();
             tx.commit();
             return term;
         }catch(Exception e){
@@ -79,8 +111,14 @@ public class DAO {
     }
 
     public void persist(Account account){
-        session = sessionFactory.getCurrentSession();
-        tx = session.beginTransaction();
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e) {
+            session = sessionFactory.openSession();
+        }
+        tx = session.getTransaction();
+        if(tx == null) tx = session.beginTransaction();
+        if(!tx.isActive()) tx.begin();
         try{
             session.save(account);
             tx.commit();
@@ -93,9 +131,13 @@ public class DAO {
     }
 
     public void persist(Term term){
-        session = sessionFactory.getCurrentSession();
-        tx = session.beginTransaction();
         try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e) {
+            session = sessionFactory.openSession();
+        }
+        tx = session.beginTransaction();
+        try{
             session.save(term);
             tx.commit();
         }catch (Exception e){

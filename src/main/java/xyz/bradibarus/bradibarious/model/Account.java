@@ -1,6 +1,7 @@
-package xyz.bradibarus.bradibarious.domain;
+package xyz.bradibarus.bradibarious.model;
 
-import net.minidev.json.annotate.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;

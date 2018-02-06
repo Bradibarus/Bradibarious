@@ -9,10 +9,13 @@ import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+@Service
 public class TranslationService {
     private Translate translate;
     private final String defaultSourceLang = "en";

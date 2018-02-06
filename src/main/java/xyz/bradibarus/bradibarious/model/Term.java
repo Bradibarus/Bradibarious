@@ -1,7 +1,6 @@
-package xyz.bradibarus.bradibarious.domain;
+package xyz.bradibarus.bradibarious.model;
 
 import net.minidev.json.annotate.JsonIgnore;
-import xyz.bradibarus.bradibarious.domain.Account;
 
 import javax.persistence.*;
 
@@ -39,6 +38,10 @@ public class Term{
 
     public String getWord2() {
         return word2;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override
