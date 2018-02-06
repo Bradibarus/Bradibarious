@@ -14,12 +14,13 @@ import xyz.bradibarus.bradibarious.service.AccountService;
 import xyz.bradibarus.bradibarious.service.TermsService;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/{userId}/terms")
+@RequestMapping("/terms")
 public class TermsController {
     @Autowired
     private final AccountService accountService;
@@ -32,29 +33,31 @@ public class TermsController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    Resources<TermResource> getTerms(@PathVariable String userId) {
-        validateUser(userId);
-        List<TermResource> termResourceList = termsService.findWordsByAccountUsername(userId).stream().map(TermResource::new).collect(Collectors.toList());
+    Resources<TermResource> getTerms(Principal principal) {
+        validateUser(principal);
+        List<TermResource> termResourceList = termsService.findWordsByAccountUsername(principal.getName()).stream().map(TermResource::new).collect(Collectors.toList());
         return new Resources<>(termResourceList);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> add(@PathVariable String userId, @RequestBody Term input){
-        validateUser(userId);
-        return accountService.findByUsername(userId).map(account -> {
-            Term term = termsService.add(new Term(account, input.getWord1(), input.getWord2()));
-            Link termLink = new TermResource(term).getLink("self");
+    ResponseEntity<?> add(Principal principal, @RequestBody Term input){
+        validateUser(principal);
+        return accountService.findByUsername(principal.getName()).map(name -> {
+            Term term = termsService.add(new Term(name, input.getWord1(), input.getWord2()));
+            Link termLink = new TermResource(term).getLink(Link.REL_SELF);
             return ResponseEntity.created(URI.create(termLink.getHref())).build();
         }).orElse(ResponseEntity.noContent().build());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{termId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    TermResource getTerm(@PathVariable String userId, @PathVariable Long termId) {
-        validateUser(userId);
+    TermResource getTerm(Principal principal, @PathVariable Long termId) {
+        validateUser(principal);
         return new TermResource(termsService.findOne(termId));
     }
 
-    private void validateUser(String userId) {
-        this.accountService.findByUsername(userId).orElseThrow(()->new UserNotFoundException(userId));
+    private void validateUser(Principal principle) {
+        String userId = principle.getName();
+        this.accountService.findByUsername(userId)
+                .orElseThrow(()->new UserNotFoundException(userId));
     }
 }
