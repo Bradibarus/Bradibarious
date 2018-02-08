@@ -17,4 +17,6 @@ public class AccountDetailsService implements UserDetailsService {
         accountService.findByUsername(s).map(AccountDetails::new).orElseThrow(()->new UserNotFoundException(s));
         return null;
     }
+
+
 }

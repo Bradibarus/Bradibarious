@@ -1,12 +1,17 @@
 package xyz.bradibarus.bradibarious.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import xyz.bradibarus.bradibarious.model.Account;
 import xyz.bradibarus.bradibarious.service.AccountService;
 
+import javax.annotation.security.RolesAllowed;
+import java.security.Principal;
+
+@Secured({"ROLE_USER"})
 @RestController
-@RequestMapping(value = "/{userId}")
+@RequestMapping(value = "/account")
 public class AccountController {
     @Autowired
     private final AccountService accountService;
@@ -15,13 +20,14 @@ public class AccountController {
         accountService = service;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    void addUser(@PathVariable String userId, @RequestBody String password){
-        accountService.add(new Account(userId, password));
+    @RequestMapping(method = RequestMethod.GET)
+    String testGet() {
+        return "You are successfully getting response from AccountController";
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    void deleteUser(@PathVariable String userId, @RequestBody String password){
-        accountService.delete(new Account(userId, password));
+    Account deleteUser(Principal principal, @RequestBody String password){
+        return accountService.delete(new Account(principal.getName(), password))
+            .orElseThrow(()->new UserNotFoundException(principal.getName()));
     }
 }

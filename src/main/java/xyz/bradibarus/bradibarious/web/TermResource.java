@@ -8,6 +8,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import xyz.bradibarus.bradibarious.model.Term;
 
+import javax.annotation.Resource;
 import java.security.Principal;
 
 public class TermResource extends ResourceSupport {
