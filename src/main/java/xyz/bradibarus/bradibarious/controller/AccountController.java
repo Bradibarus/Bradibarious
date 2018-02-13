@@ -1,4 +1,4 @@
-package xyz.bradibarus.bradibarious.web;
+package xyz.bradibarus.bradibarious.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -32,7 +32,7 @@ public class AccountController {
             .orElseThrow(()->new UserNotFoundException(principal.getName()));
     }
 
-    @Secured({"ROLE_GUEST"})
+    //@Secured({"ROLE_GUEST"})
     @RequestMapping(method = RequestMethod.POST)
     Account addUser(@RequestBody String password, @PathVariable String userId) {
         return accountService.add(new Account(userId, password));

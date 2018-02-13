@@ -3,12 +3,16 @@
     <title>Test</title>
     <meta charset="UTF-8">
 </head>
-<body>
-    <form onsubmit="submit()">
-        <input type="text" name="username">Введите имя
-        <div id="terms">
-            <div id="term."
+<body ng-app="bradibatious" ng-controller="LoginContr">
+<h1>Login</h1>
+<form ng-submit="submit()">
+        <label>Username</label><input type="text" ng-model="userId">
+        <label>Password</label><input type="text" ng-model="password">
+        <input type="submit" onclick="">
         </div>
     </form>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script typr="text/javascript" src="js/angular-cookies.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>

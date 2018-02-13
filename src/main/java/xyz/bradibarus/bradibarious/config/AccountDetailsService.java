@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import xyz.bradibarus.bradibarious.controller.UserNotFoundException;
 import xyz.bradibarus.bradibarious.service.AccountService;
-import xyz.bradibarus.bradibarious.web.UserNotFoundException;
 
 @Service
 public class AccountDetailsService implements UserDetailsService {

@@ -1,4 +1,4 @@
-package xyz.bradibarus.bradibarious.web;
+package xyz.bradibarus.bradibarious.controller;
 
 import com.sun.jndi.toolkit.url.Uri;
 import org.springframework.beans.factory.annotation.Autowired;
