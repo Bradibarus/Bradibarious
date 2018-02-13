@@ -19,16 +19,4 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean
-    CommandLineRunner init(AccountService accountService, TermsService termsService) {
-        return (args) ->
-                Arrays.asList("jhoeller,dsyer,pwebb,ogierke,rwinch,mfisher,mpollack,jlong".split(","))
-                        .forEach(a -> {
-                            Account account = accountService.add(new Account(a, "1337password"));
-                            termsService.add(new Term(account, "Oh my fucking god", ""));
-                            termsService.add(new Term(account, "Are u fucking kidding me", ""));
-                            termsService.add(new Term(account, "Send nudes", ""));
-
-                        });
-    }
 }
