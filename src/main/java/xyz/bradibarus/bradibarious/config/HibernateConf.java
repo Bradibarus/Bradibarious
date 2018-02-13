@@ -1,4 +1,4 @@
-package xyz.bradibarus.bradibarious.dao;
+package xyz.bradibarus.bradibarious.config;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +35,10 @@ public class HibernateConf {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/bradibarious?" +
-                "useSSL=false&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC");
-        dataSource.setUsername("root");
-        dataSource.setPassword("1337");
+        //jdbc:mysql://localhost:3306/bradibarious?useSSL=false&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC
+        dataSource.setUrl(env.getProperty("spring.datasource.url"));
+        dataSource.setUsername(env.getProperty("spring.datasource.username"));
+        dataSource.setPassword(env.getProperty("spring.datasource.password"));
         return dataSource;
     }
 
@@ -58,7 +58,7 @@ public class HibernateConf {
     private final Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty(
-                "hibernate.hbm2ddl.auto", "create");
+                "hibernate.hbm2ddl.auto", "update");
         hibernateProperties.setProperty(
                 "hibernate.dialect", "org.hibernate.dialect.MySQL57Dialect");
 
