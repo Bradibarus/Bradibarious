@@ -1,7 +1,10 @@
 package xyz.bradibarus.bradibarious.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.bradibarus.bradibarious.dao.DAO;
 import xyz.bradibarus.bradibarious.model.Account;
 
@@ -17,7 +20,6 @@ public class AccountService {
         this.dao = new DAO();
     }
 
-    //@Transactional
     public Account add(Account account){
         dao.persist(account);
         return account;

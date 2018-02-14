@@ -4,10 +4,28 @@
     <title>Hello</title>
 </head>
 <body ng-app="bradibatious" ng-controller="AppContr">
-<h1>Your token is {{token}}</h1>
+<h1>Hello, {{username}}</h1>
+<form name="form" ng-submit="submit()">
+    <input type="text" placeholder="English term" ng-model="word1"/>
+    <input type="submit" value="Add" onclick=""/>
+</form>
+<p>Yout words: </p>
 
+<table>
+    <thead>
+    <th>English</th>
+    <th>Russian</th>
+    </thead>
+    <tbody>
+    <tr ng-repeat="term in terms">
+        <td>{{term.term.word1}}</td>
+        <td>{{term.term.word2}}</td>
+    </tr>
+    </tbody>
+</table>
+<a href="" onclick="logout()">Log out</a>
 </body>
-<script type="text/javascript" src="../public/js/angular.min.js"></script>
-<script typr="text/javascript" src="../public/js/angular-cookies.min.js"></script>
-<script type="text/javascript" src="../public/js/main.js"></script>
+<script type="text/javascript" src="/js/angular.min.js"></script>
+<script typr="text/javascript" src="/js/angular-cookies.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
 </html>
