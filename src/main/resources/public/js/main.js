@@ -1,5 +1,19 @@
 var app = angular.module("bradibatious", ['ngCookies']);
 app.controller("LoginContr", function ($scope, $http, $httpParamSerializer, $cookies) {
+    var isLoginPage = window.location.href.indexOf("login") != -1;
+    if(isLoginPage){
+        if($cookies.get("access_token")){
+            window.location.href = "app";
+        }
+    } else{
+        if($cookies.get("access_token")){
+            $http.defaults.headers.common.Authorization =
+                'Bearer ' + $cookies.get("access_token");
+        } else{
+            window.location.href = "login";
+        }
+    }
+
     $scope.userId = 'jhoeller';
     $scope.password = '1337password';
     $scope.submit = function () {
@@ -25,7 +39,7 @@ app.controller("LoginContr", function ($scope, $http, $httpParamSerializer, $coo
                 'Bearer ' + responseData.data.access_token;
             $cookies.put("access_token", responseData.data.access_token);
             console.log($cookies.get("access_token"));
-            window.location.href="app.html";
+            window.location.href="app";
         });
         $scope.userId = '';
         $scope.password = '';
@@ -33,8 +47,8 @@ app.controller("LoginContr", function ($scope, $http, $httpParamSerializer, $coo
 })
 
 app.controller("AppContr", function ($scope, $http, $cookies) {
-    var token = $cookies.get("access_token");
-    $scope.list
+    console.log(token);
+    $scope.token = $cookies.get("access_token");
 
     }
 )
