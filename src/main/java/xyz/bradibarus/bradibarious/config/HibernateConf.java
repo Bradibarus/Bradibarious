@@ -36,12 +36,12 @@ public class HibernateConf {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 
-        dataSource.setUrl(env.getProperty("spring.datasource.url")+"?useUnicode=true&characterEncoding=UTF-8");
-        dataSource.setUsername(env.getProperty("spring.datasource.username"));
-        dataSource.setPassword(env.getProperty("spring.datasource.password"));
-        //dataSource.setUrl("jdbc:mysql://localhost:3306/bradibarious?useSSL=false&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC");
-        //dataSource.setUsername("root");
-        //dataSource.setPassword("1337");
+        //dataSource.setUrl(env.getProperty("spring.datasource.url")+"?useUnicode=true&characterEncoding=UTF-8");
+        //dataSource.setUsername(env.getProperty("spring.datasource.username"));
+        //dataSource.setPassword(env.getProperty("spring.datasource.password"));
+        dataSource.setUrl("jdbc:mysql://localhost:3306/bradibarious?useSSL=false&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC");
+        dataSource.setUsername("root");
+        dataSource.setPassword("1337");
         return dataSource;
     }
 

@@ -5,9 +5,6 @@ app.controller("LoginContr", function ($scope, $http, $httpParamSerializer, $coo
         console.log("redirect to app")
     }
 
-
-    $scope.userId = 'jhoeller';
-    $scope.password = '1337password';
     $scope.submit = function () {
         console.log('entering submit');
         tokenRequestBody = {
@@ -91,9 +88,6 @@ app.controller("SignupContr", function ($scope, $http, $httpParamSerializer, $co
         console.log("redirect to app")
     }
 
-    $scope.userId = 'bradibarus';
-    $scope.password1 = '1337';
-    $scope.password2 = '1337';
     $scope.submit = function () {
         console.log('entering submit');
         if($scope.password1 != $scope.password2) {
@@ -107,7 +101,7 @@ app.controller("SignupContr", function ($scope, $http, $httpParamSerializer, $co
         }).then(function(responseData){
             tokenRequestBody = {
                 'client_id': 'client',
-                'username' : $scope.userId,
+                'username' : responseData.data.username,
                 'grant_type' : 'password',
                 'password' : $scope.password1
             }
@@ -132,8 +126,4 @@ app.controller("SignupContr", function ($scope, $http, $httpParamSerializer, $co
         $scope.userId = '';
         $scope.password = '';
     }
-})
-
-app.controller("TestContr", function ($scope, $http, $httpParamSerializer, $cookies) {
-    $scope.test = "ну привет";
 })
