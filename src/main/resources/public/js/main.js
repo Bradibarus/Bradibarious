@@ -133,3 +133,7 @@ app.controller("SignupContr", function ($scope, $http, $httpParamSerializer, $co
         $scope.password = '';
     }
 })
+
+app.controller("TestContr", function ($scope, $http, $httpParamSerializer, $cookies) {
+    $scope.test = "ну привет";
+})
