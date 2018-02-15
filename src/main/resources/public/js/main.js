@@ -38,46 +38,64 @@ app.controller("LoginContr", function ($scope, $http, $httpParamSerializer, $coo
 
 
 app.controller("AppContr", function ($scope, $http, $cookies) {
-    if($cookies.get("access_token")){
-        $http.defaults.headers.common.Authorization =
-            'Bearer ' + $cookies.get("access_token");
-    } else{
-        window.location.href = "login";
-    }
-
-    getUsername = function () {
-        $http.get('api/account')
-            .then(function(responseData){
-                $scope.username = responseData.data.username;
-            })
-    }
-    getUsername();
-
-    $scope.terms = [];
-    getTerms = function() {
-        $http.get('api/terms')
-            .then(function (responseData) {
-            $scope.terms = responseData.data._embedded.termResourceList
-        })
-            .catch(function(error){
-                //logout();
-            })
-
-        }
-    getTerms();
-    $scope.submit = function () {
-        term = {'word1': $scope.word1, 'word2': ''};
-        $http.post('api/terms/', term).then(function (responseData) {
-            console.log(responseData);
-            $scope.terms.push(responseData.data);
-            console.log($scope.terms);
-        });
-        $scope.word1 = '';
+        if ($cookies.get("access_token")) {
+            $http.defaults.headers.common.Authorization =
+                'Bearer ' + $cookies.get("access_token");
+        } else {
+            window.location.href = "login";
         }
 
-    logout = function () {
-        $cookies.remove("access_token");
-        window.location.href = "login";
+        getUsername = function () {
+            $http.get('api/account')
+                .then(function (responseData) {
+                    $scope.username = responseData.data.username;
+                })
+        }
+        getUsername();
+
+        $scope.terms = [];
+        getTerms = function () {
+            $http.get('api/terms')
+                .then(function (responseData) {
+                    console.log(responseData);
+                    if (angular.equals(responseData.data, {})) {
+                        $scope.hideTable = true;
+                        document.getElementById("no_terms").innerHTML = "<p>Your don't have any words yet<br>Feel free to add them using form below 😉</p>";
+                    } else {
+                        $scope.hideTable = false;
+                        document.getElementById("no_terms").innerHTML = " ";
+                        $scope.terms = responseData.data._embedded.termResourceList;
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+
+        }
+        getTerms();
+        $scope.submit = function () {
+            term = {'word1': $scope.word1, 'word2': ''};
+            $http.post('api/terms/', term).then(function (responseData) {
+                console.log(responseData);
+                //$scope.terms.push(responseData.data);
+                getTerms();
+                console.log($scope.terms);
+            });
+            $scope.word1 = '';
+        }
+
+        $scope.logout = function () {
+            $cookies.remove("access_token");
+            window.location.href = "login";
+        }
+
+
+        $scope.del = function (url) {
+            console.log(url);
+            $http.delete(url)
+                .then(function (value) {
+                    getTerms();
+                })
         }
     }
 )

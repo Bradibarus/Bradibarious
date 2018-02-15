@@ -58,6 +58,12 @@ public class TermsController {
         return new TermResource(termsService.findOne(termId));
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{termId}")
+    void delete(Principal principal, @PathVariable long termId){
+        validateUser(principal);
+        termsService.deleteOne(termId);
+    }
+
     private void validateUser(Principal principle) {
         String userId = principle.getName();
         this.accountService.findByUsername(userId)

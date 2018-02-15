@@ -38,4 +38,8 @@ public class TermsService {
     public Term findOne (Long id){
         return dao.findTermById(id);
     }
+
+    public void deleteOne (long id) {
+        dao.deleteTerm(id);
+    }
 }

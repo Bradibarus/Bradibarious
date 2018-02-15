@@ -63,4 +63,8 @@ public class DAO {
         sessionFactory.getCurrentSession().save(term);
             return term;
     }
+
+    public void deleteTerm(long id) {
+        sessionFactory.getCurrentSession().delete(this.findTermById(id));
+    }
 }
