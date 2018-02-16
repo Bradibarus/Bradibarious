@@ -1,4 +1,4 @@
-package xyz.bradibarus.bradibarious.web;
+package xyz.bradibarus.bradibarious.controller;
 
 import org.springframework.hateoas.VndErrors;
 import org.springframework.http.HttpStatus;

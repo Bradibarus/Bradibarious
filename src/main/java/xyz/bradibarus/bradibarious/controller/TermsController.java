@@ -1,6 +1,7 @@
-package xyz.bradibarus.bradibarious.web;
+package xyz.bradibarus.bradibarious.controller;
 
 import com.sun.jndi.toolkit.url.Uri;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resources;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Secured({"ROLE_USER"})
 @RestController
-@RequestMapping("/terms")
+@RequestMapping("api/terms")
 public class TermsController {
     @Autowired
     private final AccountService accountService;
@@ -42,20 +43,25 @@ public class TermsController {
         return new Resources<>(termResourceList);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> add(Principal principal, @RequestBody Term input){
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    TermResource add(Principal principal, @RequestBody Term input) {
         validateUser(principal);
         return accountService.findByUsername(principal.getName()).map(name -> {
             Term term = termsService.add(new Term(name, input.getWord1(), input.getWord2()));
-            Link termLink = new TermResource(term).getLink(Link.REL_SELF);
-            return ResponseEntity.created(URI.create(termLink.getHref())).build();
-        }).orElse(ResponseEntity.noContent().build());
+            return new TermResource(term);
+        }).orElseThrow(()->new UserNotFoundException(principal.getName()));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{termId}", produces = MediaType.APPLICATION_JSON_VALUE)
     TermResource getTerm(Principal principal, @PathVariable Long termId) {
         validateUser(principal);
         return new TermResource(termsService.findOne(termId));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{termId}")
+    void delete(Principal principal, @PathVariable long termId){
+        validateUser(principal);
+        termsService.deleteOne(termId);
     }
 
     private void validateUser(Principal principle) {

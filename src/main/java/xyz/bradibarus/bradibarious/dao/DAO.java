@@ -5,7 +5,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.bradibarus.bradibarious.model.Account;
 import xyz.bradibarus.bradibarious.model.Term;
 
@@ -14,137 +18,53 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
+@Service
+@Transactional
 public class DAO {
     @Autowired
     SessionFactory sessionFactory;
-    private Session session;
-    private Transaction tx;
+
+    //private Transaction tx;
 
     public DAO() {
-        session = null;
+        //sessionFactory = transactionManager.getSessionFactory();
     }
 
     public Account findAccountByUsername(String username) {
-        Account result = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-        } catch (HibernateException e) {
-            session = sessionFactory.openSession();
-        }        tx = session.beginTransaction();
-        try {
-            result =  (Account) session.createQuery("from Account a where a.username =:username ")
+        return (Account) sessionFactory.getCurrentSession().createQuery("from Account a where a.username =:username ")
                     .setParameter("username", username)
                     .getSingleResult();
-            tx.commit();
-        }catch(NoResultException e){
-            tx.rollback();
-            return null;
-        }catch(Exception e){
-            tx.rollback();
-            e.printStackTrace();
-        }finally {
-            session.close();
-        }
-        return result;
     }
 
     public Account deleteAccountByUsername(String username) {
         Account toDelete = this.findAccountByUsername(username);
-        if(toDelete == null) return null;
-        try {
-            session = sessionFactory.getCurrentSession();
-        } catch (HibernateException e) {
-            session = sessionFactory.openSession();
-        }        tx = session.beginTransaction();
-        try {
-            session.delete(toDelete);
-            tx.commit();
-        }catch(Exception e){
-            tx.rollback();
-            e.printStackTrace();
-        }finally {
-            session.close();
-        }
+        sessionFactory.getCurrentSession().delete(toDelete);
         return toDelete;
     }
 
     public Collection<Term> findTermsByAccountUsername (String username) {
-        try {
-            session = sessionFactory.getCurrentSession();
-        } catch (HibernateException e) {
-            session = sessionFactory.openSession();
-        }        tx = session.beginTransaction();
-        try {
-            List<Term> termsList = session.createQuery("from Term t where t.account.username =:username")
+        return sessionFactory.getCurrentSession().createQuery("from Term t where t.account.username =:username")
                     .setParameter("username", username)
                     .list();
-            tx.commit();
-            return termsList;
-        }catch(Exception e){
-            tx.rollback();
-            e.printStackTrace();
-        }finally {
-            session.close();
-        }
-        return null;
     }
 
     public Term findTermById(Long id) {
-        try {
-            session = sessionFactory.getCurrentSession();
-        } catch (HibernateException e) {
-            session = sessionFactory.openSession();
-        }        tx = session.beginTransaction();
-        try {
-            Term term = (Term) session.createQuery("from Term t where t.id =:id")
+        return (Term) sessionFactory.getCurrentSession().createQuery("from Term t where t.id =:id")
                     .setParameter("id", id)
                     .getSingleResult();
-            tx.commit();
+    }
+
+    public Account persist(Account account){
+        sessionFactory.getCurrentSession().save(account);
+        return account;
+    }
+
+    public Term persist(Term term){
+        sessionFactory.getCurrentSession().save(term);
             return term;
-        }catch(Exception e){
-            tx.rollback();
-            e.printStackTrace();
-        }finally {
-            session.close();
-        }
-        return null;
     }
 
-    public void persist(Account account){
-        try {
-            session = sessionFactory.getCurrentSession();
-        } catch (HibernateException e) {
-            session = sessionFactory.openSession();
-        }
-        tx = session.getTransaction();
-        if(tx == null) tx = session.beginTransaction();
-        if(!tx.isActive()) tx.begin();
-        try{
-            session.save(account);
-            tx.commit();
-        }catch (Exception e){
-            tx.rollback();
-            e.printStackTrace();
-        }finally {
-            session.close();
-        }
-    }
-
-    public void persist(Term term){
-        try {
-            session = sessionFactory.getCurrentSession();
-        } catch (HibernateException e) {
-            session = sessionFactory.openSession();
-        }
-        tx = session.beginTransaction();
-        try{
-            session.save(term);
-            tx.commit();
-        }catch (Exception e){
-            tx.rollback();
-            e.printStackTrace();
-        }finally {
-            session.close();
-        }
+    public void deleteTerm(long id) {
+        sessionFactory.getCurrentSession().delete(this.findTermById(id));
     }
 }

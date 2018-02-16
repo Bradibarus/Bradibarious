@@ -1,4 +1,4 @@
-package xyz.bradibarus.bradibarious.web;
+package xyz.bradibarus.bradibarious.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,8 +20,8 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 
 @Configuration
 @EnableAuthorizationServer
-@EnableResourceServer
 public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
+    public final static String RESOURCE_ID = "terms";
 
     @Autowired
     @Qualifier("accountDetailsService")
@@ -43,6 +43,8 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
                 .secret("1337password")
                 .scopes("read", "write")
                 .authorizedGrantTypes("password")
-                .resourceIds("resource");
+                .resourceIds(this.RESOURCE_ID);
     }
+
+
 }
