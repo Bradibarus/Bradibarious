@@ -4,6 +4,7 @@ app.controller("LoginContr", function ($scope, $http, $httpParamSerializer, $coo
         window.location.href = "app";
         console.log("redirect to app")
     }
+    $scope.wrongCredentials = false;
 
     $scope.submit = function () {
         console.log('entering submit');
@@ -29,6 +30,8 @@ app.controller("LoginContr", function ($scope, $http, $httpParamSerializer, $coo
             $cookies.put("access_token", responseData.data.access_token);
             console.log($cookies.get("access_token"));
             window.location.href="app";
+        }).catch(function (reason) {
+            $scope.wrongCredentials = true;
         });
         $scope.userId = '';
         $scope.password = '';
@@ -60,11 +63,11 @@ app.controller("AppContr", function ($scope, $http, $cookies) {
                     console.log(responseData);
                     if (angular.equals(responseData.data, {})) {
                         $scope.hideTable = true;
-                        document.getElementById("no_terms").innerHTML = "<p>Your don't have any words yet<br>Feel free to add them using form below 😉</p>";
+                        document.getElementById("no_terms").innerHTML = "<p>You don't have any words yet<br>Feel free to add them using form to the right 👉</p>";
                     } else {
                         $scope.hideTable = false;
-                        document.getElementById("no_terms").innerHTML = " ";
-                        $scope.terms = responseData.data._embedded.termResourceList;
+                        document.getElementById("no_terms").innerHTML = "<p>Yout words: </p>";
+                        $scope.terms = responseData.data._embedded.termResourceList.reverse();
                     }
                 })
                 .catch(function (error) {
@@ -91,14 +94,84 @@ app.controller("AppContr", function ($scope, $http, $cookies) {
 
 
         $scope.del = function (url) {
-            console.log(url);
             $http.delete(url)
                 .then(function (value) {
                     getTerms();
                 })
         }
+
+
+        /* CARUSRL */
+
+
     }
 )
+
+app.controller("TrainContr", function ($scope, $http, $httpParamSerializer, $cookies) {
+    if ($cookies.get("access_token")) {
+        $http.defaults.headers.common.Authorization =
+            'Bearer ' + $cookies.get("access_token");
+    } else {
+        window.location.href = "login";
+    }
+
+    getUsername = function () {
+        $http.get('api/account')
+            .then(function (responseData) {
+                $scope.username = responseData.data.username;
+            })
+    }
+    getUsername();
+
+    $scope.terms = [];
+    getTerms = function () {
+        $http.get('api/terms')
+            .then(function (responseData) {
+                console.log(responseData);
+                if (angular.equals(responseData.data, {})) {
+                    $scope.hideCarousel = true;
+                    document.getElementById("no_terms").innerHTML = "<p>You don't have any words to remember<br>Head over to <a href='/app'>Dictionary</a> to get some </p>" +
+                        "<img src= '128.png'/>";
+                } else {
+                    $scope.hideCarousel = false;
+                    document.getElementById("no_terms").outerHTML = "";
+                    $scope.terms = responseData.data._embedded.termResourceList;
+                    $scope.words = [];
+                    console.log($scope.terms[0].term.word1);
+                    $scope.terms.forEach(function (value) {
+                        $scope.words.push(value.term.word1);
+                        $scope.words.push(value.term.word2);
+                    })
+                    barWidth = -1/$scope.words.length*100;
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+    }
+    getTerms();
+
+    $scope.logout = function () {
+        $cookies.remove("access_token");
+        window.location.href = "login";
+    }
+
+
+    $scope.nextTerm = function() {
+        $('.carousel').carousel({
+            wrap: false
+        })
+        $('.carousel').carousel('next');
+        $('.carousel').carousel('pause');
+    }
+    $('.carousel').on('slide.bs.carousel', function () {
+        barWidth += 1/$scope.words.length*100;
+        $scope.barStyle = "width: "+barWidth+"%;"
+    })
+
+
+})
 
 app.controller("SignupContr", function ($scope, $http, $httpParamSerializer, $cookies) {
     if($cookies.get("access_token")){
@@ -110,7 +183,10 @@ app.controller("SignupContr", function ($scope, $http, $httpParamSerializer, $co
         console.log('entering submit');
         if($scope.password1 != $scope.password2) {
             console.log("passwords are different");
+            $scope.wrongPasswords = true;
             return;
+        }else{
+            $scope.wrongPasswords = false;
         }
         $http({
             method: 'POST',

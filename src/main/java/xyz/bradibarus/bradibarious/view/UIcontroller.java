@@ -18,4 +18,6 @@ public String login(){ return "login"; }
 public String index(){ return "app"; }
 @RequestMapping(value = "/signup")
 public String signup(){ return "signup"; }
+@RequestMapping(value = "/train")
+public String train(){ return "train"; }
 }

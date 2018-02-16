@@ -1,65 +1,68 @@
 <!doctype html>
 <html lang="en" xmls="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Bradibarious | Dictionary</title>
+    <title>Bradibarious | Training</title>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 </head>
-<body ng-app="bradibatious" ng-controller="AppContr">
-<div class="container" >
+<body ng-app="bradibatious" ng-controller="TrainContr">
+<div class="container">
     <div class="row">
-<h1 class="display-2">Bradibarious</h1>
+    <h1 class="display-2">Bradibarious</h1>
     </div>
     <div class="row mb-3">
         <div class="col-auto">
 
-            <h4 >Hello, <b>{{username}}</b>! </h4>
+            <h4 style="display: inline;">Hello, <b>{{username}}</b>! </h4>
         </div>
         <div class="col-auto">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active " href="" ng-click="">Dictionary</a>
+                    <a class="nav-link" href="app" ng-click="">Dictionary</a>
                 </li>
                 <li class="nav-item">
-            <a class="nav-link " href="train" ng-click="">Train</a>
+                    <a class="nav-link active" href="" ng-click="">Train</a>
                 </li>
                 <li class="nav-item">
-            <a class="nav-link" href="" ng-click="logout()">Log out</a>
+                    <a class="nav-link" href="" ng-click="logout()">Log out</a>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="row mb-3">
-        <div class="col">
-            <div id="no_terms"></div>
-        </div>
-        <div class="col-auto">
-            <form class="input-group" name="form" ng-submit="submit()">
-                <input class="form-control" type="text" placeholder="English word or phrase" ng-model="word1"/>
-                <input class="btn btn-outline-primary btn-sm" type="submit" value="Add" onclick=""/>
-            </form>
-        </div>
-    </div>
     <div class="row">
         <div class="col">
-            <ng-hide ng-hide="hideTable">
-                <table class="table table-hover table-sm ">
-                    <thead >
-                        <tr scope="row">
-                        <th scope="col">English</th>
-                        <th scope="col">Russian</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr scope="row" ng-repeat="term in terms">
-                            <td >{{term.term.word1}}</td>
-                            <td >{{term.term.word2}}</td>
-                            <td ><a class="btn btn-outline-danger btn-sm " href="" ng-click="del(term._links.self.href)">delete</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </ng-hide>
+        <p id="no_terms"></p>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="{{barStyle}}" aria-valuenow="{{barWidth}}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+    </div>
+    <div ng-hide="hideCarousel" class="row mt-5">
+        <div class="card text-center border-light" style="width: 100%" ng-click="nextTerm()">
+        <div class="carousel slide">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <h1>Click to start 👺</h1>
+                </div>
+                <div ng-repeat="word in words" class="carousel-item">
+                    <h1>{{word}}</h1>
+                </div>
+                <div class="carousel-item">
+                    <h1>That's all 🎉</h1>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col text-center">
+            <p>You will see original words followed by their translations<br/>
+                If you spend 15 hours a day watching this you will improve your vocabulary by 42% in a year, bro!</p>
         </div>
     </div>
 </div>
