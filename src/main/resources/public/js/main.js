@@ -122,7 +122,12 @@ app.controller("TrainContr", function ($scope, $http, $httpParamSerializer, $coo
         $http.get('api/account')
             .then(function (responseData) {
                 $scope.username = responseData.data.username;
-            })
+            }).catch(function (error) {
+            if(error.data.error == "invalid_token"){
+                $cookies.remove("access_token")
+                window.location.href = "login";
+            }
+        })
     }
     getUsername();
 
