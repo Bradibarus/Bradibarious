@@ -71,7 +71,10 @@ app.controller("AppContr", function ($scope, $http, $cookies) {
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    if(error.data.error == "invalid_token"){
+                        $cookies.remove("access_token")
+                        window.location.href = "login";
+                    }
                 })
 
         }

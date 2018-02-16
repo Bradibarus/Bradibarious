@@ -35,7 +35,7 @@
         <p id="no_terms"></p>
         </div>
     </div>
-    <div class="row mt-2">
+    <div ng-hide="hideCarousel" class="row mt-2">
         <div class="col">
             <div class="progress">
                 <div class="progress-bar" role="progressbar" style="{{barStyle}}" aria-valuenow="{{barWidth}}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -59,7 +59,7 @@
         </div>
         </div>
     </div>
-    <div class="row mt-5">
+    <div ng-hide="hideCarousel" class="row mt-5">
         <div class="col text-center">
             <p>You will see original words followed by their translations<br/>
                 If you spend 15 hours a day watching this you will improve your vocabulary by 42% in a year, bro!</p>
